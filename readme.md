@@ -1,5 +1,7 @@
 ## Gerenciador de Projetos
 
+### LARAVEL 5.1 COM ANGULARJS (MODULO DE LARAVEL)
+
 Aplicativo didático desenvolvido em PHP com base no Laravel 5.1 framework.
 
 
