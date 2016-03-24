@@ -2,18 +2,14 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Entities\Client;
-use CodeProject\Repositories\ClientRepository;
-use CodeProject\Repositories\ClientRepositoryEloquent;
-use CodeProject\Services\ClientService;
-use CodeProject\Validators\ClientValidator;
-use Illuminate\Http\Exception\HttpResponseException;
+use CodeProject\Repositories\ProjectRepository;
+use CodeProject\Services\ProjectService;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
 
-class ClientController extends Controller
+class ProjectController extends Controller
 {
     private $repository;
     /**
@@ -22,10 +18,10 @@ class ClientController extends Controller
     private $service;
 
     /**
-     * ClientController constructor.
+     * ProjectController constructor.
      * @param $repository
      */
-    public function __construct(ClientRepository $repository, ClientService $service)
+    public function __construct(ProjectRepository $repository, ProjectService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -39,7 +35,8 @@ class ClientController extends Controller
      */
     public function index()
     {
-        return $this->repository->all();
+        return $this->repository->with(['owner', 'client'])->all();
+
 
     }
 
@@ -66,7 +63,7 @@ class ClientController extends Controller
     {
 
         try {
-            return $this->repository->find($id);
+            return $this->repository->with(['owner', 'client'])->find($id);
         } catch (\Exception $e) {
             return [
                 "error" => true,

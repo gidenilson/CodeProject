@@ -6,7 +6,9 @@
     "type": "project",
     "require": {
         "php": ">=5.5.9",
-        "laravel/framework": "5.1.*"
+        "laravel/framework": "5.1.*",
+        "prettus/l5-repository": "^2.1",
+        "prettus/laravel-validation": "1.1.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -46,6 +48,7 @@
         ]
     },
     "config": {
-        "preferred-install": "dist"
+        "preferred-install": "dist",
+        "secure-http" : false
     }
 }
