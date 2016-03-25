@@ -46,11 +46,15 @@ class ClientService
                 "error" => true,
                 "message" => $e->getMessageBag()
             ];
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => "The specified resource does not exist."
+            ];
         }
 
+
     }
-
-
 
 
 }

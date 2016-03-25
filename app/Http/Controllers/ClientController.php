@@ -70,7 +70,7 @@ class ClientController extends Controller
         } catch (\Exception $e) {
             return [
                 "error" => true,
-                "message" => $e->getMessage()
+                "message" => "The specified resource does not exist."
             ];
         }
 
@@ -99,6 +99,16 @@ class ClientController extends Controller
      */
     public function destroy($id)
     {
-        return $this->repository->delete($id);
+
+        try {
+            $client = $this->repository->find($id);
+            $this->repository->delete($id);
+            return ["success"=>true, "message" =>"client deleted."];
+        } catch (\Exception $e) {
+            return [
+                "error" => true,
+                "message" => "The specified resource does not exist."
+            ];
+        }
     }
 }
