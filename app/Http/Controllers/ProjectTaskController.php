@@ -2,14 +2,15 @@
 
 namespace CodeProject\Http\Controllers;
 
-use CodeProject\Repositories\ProjectRepository;
-use CodeProject\Services\ProjectService;
+
+use CodeProject\Repositories\ProjectTaskRepository;
+use CodeProject\Services\ProjectTaskService;
 use Illuminate\Http\Request;
 
 use CodeProject\Http\Requests;
 use CodeProject\Http\Controllers\Controller;
 
-class ProjectController extends Controller
+class ProjectTaskController extends Controller
 {
     private $repository;
     /**
@@ -21,7 +22,7 @@ class ProjectController extends Controller
      * ProjectController constructor.
      * @param $repository
      */
-    public function __construct(ProjectRepository $repository, ProjectService $service)
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskService $service)
     {
         $this->repository = $repository;
         $this->service = $service;
@@ -33,9 +34,9 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        return $this->repository->with(['owner', 'client'])->all();
+        return $this->repository->findWhere(['project_id'=>$id]);
 
 
     }
@@ -49,7 +50,6 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-
         return $this->service->create($request->all());
 
     }
@@ -60,11 +60,15 @@ class ProjectController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, $taskId)
     {
 
         try {
-            return $this->repository->with(['owner', 'client'])->find($id);
+            $note = $this->repository->findWhere(['project_id'=>$id, 'id'=>$taskId]);
+            if(! count($note)) {
+                throw new \Exception();
+            }
+            return $note;
         } catch (\Exception $e) {
             return [
                 "error" => true,
@@ -83,10 +87,11 @@ class ProjectController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id, $taskId)
     {
 
-        return $this->service->update($request->all(), $id);
+        return $this->service->update($request->all(), $id, $taskId);
+
 
     }
 
@@ -96,13 +101,13 @@ class ProjectController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $taskId)
     {
 
         try {
-            $client = $this->repository->find($id);
-            $this->repository->delete($id);
-            return ["success"=>true, "message" =>"Project deleted."];
+            $note = $this->repository->find($taskId);
+            $this->repository->delete($taskId);
+            return ["success"=>true, "message" =>"Task deleted."];
         } catch (\Exception $e) {
             return [
                 "error" => true,
@@ -110,15 +115,4 @@ class ProjectController extends Controller
             ];
         }
     }
-    public function members($id) {
-        return $this->service->getMembers($id);
-    }
-
-    public function add_member(Request $request, $id) {
-        return $this->service->addMember($id, $request->user_id);
-    }
-    public function remove_member(Request $request, $id) {
-        return $this->service->removeMember($id, $request->user_id);
-    }
-
 }
