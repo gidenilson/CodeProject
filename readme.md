@@ -20,7 +20,7 @@ Aplicativo didático desenvolvido em PHP com base no Laravel 5.1 framework.
 ```sh
   $ composer install
 
- 
+  $ php artisan vendor:publish
 ```
 
 ### Configurar o ambiente
