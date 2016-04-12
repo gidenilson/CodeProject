@@ -39,7 +39,7 @@ class ProjectNoteService
     {
         try {
             $this->validator->with($data)->passesOrFail();
-            if (! count($this->repository->findWhere(['project_id'=>$id, 'id'=>$noteId]))) {
+            if (! count($this->repository->skipPresenter()->findWhere(['project_id'=>$id, 'id'=>$noteId]))) {
                 throw new \Exception();
             }
             return $this->repository->update($data, $noteId);

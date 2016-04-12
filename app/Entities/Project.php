@@ -29,5 +29,8 @@ class Project extends Model
     public function members(){
         return $this->hasMany(ProjectMember::class);
     }
+    public function files(){
+        return $this->hasMany(ProjectFile::class);
+    }
 
 }

@@ -79,7 +79,8 @@ class ProjectService
 
     public function removeMember($id, $user_id)
     {
-        $member = $this->member_repository->findWhere(['project_id'=>$id, 'user_id'=>$user_id]);
+        $member = $this->member_repository->skipPresenter()->findWhere(['project_id'=>$id, 'user_id'=>$user_id]);
+
         if(! count($member)) {
             return [
                 "error" => true,
@@ -94,12 +95,20 @@ class ProjectService
     }
 
     public function isMember($id, $user_id){
-        return count($this->member_repository->findWhere(['project_id'=>$id, 'user_id'=>$user_id]));
-       
+        return count($this->member_repository->skipPresenter()->findWhere(['project_id'=>$id, 'user_id'=>$user_id]));
+
+
     }
     public function getMembers($id){
         return $this->member_repository->findWhere(['project_id'=>$id]);
 
+    }
+    public function isOwner($id, $user_id){
+        return count($this->repository->skipPresenter()->findWhere(['owner_id'=>$user_id, 'id'=>$id]));
+    }
+
+    public function hasPermissions($id, $user_id){
+        return $this->isMember($id, $user_id) or $this->isOwner($id, $user_id);
     }
 
 

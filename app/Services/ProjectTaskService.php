@@ -39,7 +39,7 @@ class ProjectTaskService
     {
         try {
             $this->validator->with($data)->passesOrFail();
-            if (! count($this->repository->findWhere(['project_id'=>$id, 'id'=>$taskId]))) {
+            if (! count($this->repository->skipPresenter()->findWhere(['project_id'=>$id, 'id'=>$taskId]))) {
                 throw new \Exception();
             }
             return $this->repository->update($data, $taskId);

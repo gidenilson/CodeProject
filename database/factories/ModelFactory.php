@@ -65,4 +65,5 @@ $factory->define(CodeProject\Entities\ProjectMember::class, function (Faker\Gene
         'project_id' => $faker->numberBetween(1,10),
         'user_id' => $faker->numberBetween(1,10),
     ];
+
 });
