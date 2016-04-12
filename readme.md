@@ -4,7 +4,9 @@
 
 Aplicativo didático desenvolvido em PHP com base no Laravel 5.1 framework.
 
+#### Link para a collection de teste no Postman 
 
+* [download collection](https://www.getpostman.com/collections/ce1cf59ba50cba22b17a)
 
 ## Instalação
 
@@ -18,7 +20,7 @@ Aplicativo didático desenvolvido em PHP com base no Laravel 5.1 framework.
 ```sh
   $ composer install
 
- 
+  $ php artisan vendor:publish
 ```
 
 ### Configurar o ambiente
